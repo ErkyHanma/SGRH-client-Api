@@ -1,9 +1,9 @@
-import { Floor } from "@entities/Hotel/Floor";
-import { Rate } from "@entities/Hotel/Rate";
-import { Room } from "@entities/Hotel/Room";
-import { RoomCategory } from "@entities/Hotel/RoomCategory";
-import { Season } from "@entities/Hotel/Season";
-import { IBaseRepository } from "@interfaces/BaseTypes";
+import { Floor } from "@domain/entities/Hotel/Floor";
+import { Rate } from "@domain/entities/Hotel/Rate";
+import { Room } from "@domain/entities/Hotel/Room";
+import { RoomCategory } from "@domain/entities/Hotel/RoomCategory";
+import { Season } from "@domain/entities/Hotel/Season";
+import { IBaseRepository } from "@domain/interfaces/BaseTypes";
 
 // Repositories
 export interface IFloorRepository extends IBaseRepository<Floor> {}

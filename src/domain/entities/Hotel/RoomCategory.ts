@@ -1,4 +1,4 @@
-import { AuditEntity } from "@entities/Base/AuditEntity";
+import { AuditEntity } from "@domain/entities/Base/AuditEntity";
 
 export class RoomCategory extends AuditEntity {
   categoryId: number;

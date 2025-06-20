@@ -1,8 +1,8 @@
-import { AuditEntity } from "@entities/Base/AuditEntity";
+import { AuditEntity } from "@domain/entities/Base/AuditEntity";
 
 export class Service extends AuditEntity {
   service_id?: number;
-  mame: string;
+  name: string;
   description: string;
   price: number;
 }
