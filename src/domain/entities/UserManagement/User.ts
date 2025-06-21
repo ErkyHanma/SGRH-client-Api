@@ -1,12 +1,33 @@
-import { AuditEntity } from "@domain/entities/Base/AuditEntity";
+import { AuditEntity } from "../Base/AuditEntity";
 
 export class User extends AuditEntity {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  passwordHash: string;
-  roleId: number;
-  phone?: string;
-  address?: string;
+  constructor(
+    public userId: number,
+    public firstName: string,
+    public lastName: string,
+    public email: string,
+    public passwordHash: string,
+    public roleId: number,
+    public phone?: string,
+    public address?: string,
+    createdAt?: Date,
+    createdBy?: number,
+    updatedAt?: Date,
+    updatedBy?: number,
+    deletedAt?: Date,
+    deletedBy?: number,
+    isActive: boolean = true,
+    isDeleted: boolean = false
+  ) {
+    super(
+      createdAt,
+      createdBy,
+      updatedAt,
+      updatedBy,
+      deletedAt,
+      deletedBy,
+      isActive,
+      isDeleted
+    );
+  }
 }
