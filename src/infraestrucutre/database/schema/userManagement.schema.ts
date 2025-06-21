@@ -34,5 +34,4 @@ export const usersTable = userManagement.table("users", {
   deletedBy: integer("deleted_by"),
 });
 
-// Type for selecting data (e.g. SELECT * FROM users)
 export type UserModel = InferSelectModel<typeof usersTable>;

@@ -11,7 +11,7 @@ import {
 
 export const hotel = pgSchema("hotel");
 
-export const floors = hotel.table(
+export const floorsTable = hotel.table(
   "floors",
   {
     floor_id: serial("floor_id").primaryKey(),
@@ -35,7 +35,7 @@ export const floors = hotel.table(
   })
 );
 
-export const room_category = hotel.table("room_category", {
+export const room_categoryTable = hotel.table("room_category", {
   category_id: serial("category_id").primaryKey(),
   name: varchar("name", { length: 100 }),
   description: text("description"),
@@ -51,15 +51,15 @@ export const room_category = hotel.table("room_category", {
   deleted_by: integer("deleted_by"),
 });
 
-export const rooms = hotel.table(
+export const roomsTable = hotel.table(
   "rooms",
   {
     room_id: serial("room_id").primaryKey(),
     room_number: varchar("room_number", { length: 10 }).notNull(),
     category_id: integer("category_id").references(
-      () => room_category.category_id
+      () => room_categoryTable.category_id
     ),
-    floor_id: integer("floor_id").references(() => floors.floor_id),
+    floor_id: integer("floor_id").references(() => floorsTable.floor_id),
     description: text("description"),
     room_img_url: text("room_img_url"),
     status: varchar("status", { length: 20 }),
@@ -80,7 +80,7 @@ export const rooms = hotel.table(
   })
 );
 
-export const season = hotel.table("season", {
+export const seasonTable = hotel.table("season", {
   season_id: serial("season_id").primaryKey(),
   name: varchar("name", { length: 50 }).notNull().unique(),
   description: text("description"),
@@ -88,12 +88,12 @@ export const season = hotel.table("season", {
   end_date: date("end_date"),
 });
 
-export const rate = hotel.table("rate", {
+export const rateTable = hotel.table("rate", {
   rate_id: serial("rate_id").primaryKey(),
   category_id: integer("category_id").references(
-    () => room_category.category_id
+    () => room_categoryTable.category_id
   ),
-  season_id: integer("season_id").references(() => season.season_id),
+  season_id: integer("season_id").references(() => seasonTable.season_id),
   night_price: numeric("night_price", { precision: 10, scale: 2 }),
   is_active: boolean("is_active").default(true),
   is_deleted: boolean("is_deleted").default(false),

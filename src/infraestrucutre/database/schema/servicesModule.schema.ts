@@ -10,10 +10,10 @@ import {
 } from "drizzle-orm/pg-core";
 
 // Definición del schema
-export const servicesModule = pgSchema("servicesModule");
+export const servicesModule = pgSchema("servicesmodule");
 
 // Tabla: services
-export const services = servicesModule.table("services", {
+export const servicesTable = servicesModule.table("services", {
   service_id: serial("service_id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
   description: text("description"),

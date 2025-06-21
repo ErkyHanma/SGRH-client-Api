@@ -7,12 +7,12 @@ export class RoomCategory extends AuditEntity {
     public description: string,
     public maxCapacity: number,
     public amenities: string,
-    createdAt?: Date,
-    createdBy?: number,
-    updatedAt?: Date,
-    updatedBy?: number,
-    deletedAt?: Date,
-    deletedBy?: number,
+    createdAt: Date,
+    createdBy: number,
+    updatedAt: Date,
+    updatedBy: number,
+    deletedAt: Date,
+    deletedBy: number,
     isActive: boolean = true,
     isDeleted: boolean = false
   ) {

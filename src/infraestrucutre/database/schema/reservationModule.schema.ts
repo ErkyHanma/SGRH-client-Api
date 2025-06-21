@@ -8,9 +8,9 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 
-export const reservationModule = pgSchema("reservationModule");
+export const reservationModule = pgSchema("reservationmodule");
 
-export const reservations = reservationModule.table(
+export const reservationsTable = reservationModule.table(
   "reservations",
   {
     reservation_id: serial("reservation_id").primaryKey(),
@@ -43,7 +43,7 @@ export const reservations = reservationModule.table(
   })
 );
 
-export const reservationService = reservationModule.table(
+export const reservationServiceTable = reservationModule.table(
   "reservation_service",
   {
     reservation_service_id: serial("reservation_service_id").primaryKey(),
