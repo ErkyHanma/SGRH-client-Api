@@ -71,33 +71,33 @@ export class ReservationMapper {
 export class ReservationServiceMapper {
   static toReservationServiceEntity(raw: any): ReservationService {
     return new ReservationService(
-      raw.reservationServiceId,
-      raw.reservationId,
-      raw.serviceId,
-      raw.createdAt,
-      raw.createdBy,
-      raw.updatedAt,
-      raw.updatedBy,
-      raw.deletedAt,
-      raw.deletedBy,
-      raw.isActive,
-      raw.isDeleted
+      raw.reservation_service_id,
+      raw.reservation_id,
+      raw.service_id,
+      raw.created_at,
+      raw.created_by,
+      raw.updated_at,
+      raw.updated_by,
+      raw.deleted_at,
+      raw.deleted_by,
+      raw.is_active,
+      raw.is_deleted
     );
   }
 
   static toReservationServiceModel(entity: ReservationService): any {
     return {
-      reservationServiceId: entity.reservationServiceId,
-      reservationId: entity.reservationId,
-      serviceId: entity.serviceId,
-      createdAt: entity.createdAt,
-      createdBy: entity.createdBy,
-      updatedAt: entity.updatedAt,
-      updatedBy: entity.updatedBy,
-      deletedAt: entity.deletedAt,
-      deletedBy: entity.deletedBy,
-      isActive: entity.isActive,
-      isDeleted: entity.isDeleted,
+      reservation_service_id: entity.reservationServiceId,
+      reservation_id: entity.reservationId,
+      service_id: entity.serviceId,
+      created_at: entity.createdAt,
+      created_by: entity.createdBy,
+      updated_at: entity.updatedAt,
+      updated_by: entity.updatedBy,
+      deleted_at: entity.deletedAt,
+      deleted_by: entity.deletedBy,
+      is_active: entity.isActive,
+      is_deleted: entity.isDeleted,
     };
   }
 }

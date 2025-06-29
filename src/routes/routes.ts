@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userRoutes from "./UserManagement/user.routes";
 import ReservationRoutes from "./ReservationModule/reservation.routes";
+import ReservationServicesRoutes from "./ReservationModule/reservationService.routes";
 
 const router = Router();
 
@@ -11,6 +12,7 @@ export default () => {
 
   router.use("/user", userRoutes);
   router.use("/reservation", ReservationRoutes);
+  router.use("/reservationService", ReservationServicesRoutes);
 
   return router;
 };

@@ -40,11 +40,17 @@ export interface IReservationService {
 
 // Reservation Service
 export interface IReservationServiceRepository {
-  AddAsync(
-    entity: ReservationService
+  AddAsync(entity: ReservationService): Promise<OperationResult<boolean>>;
+
+  DeleteAsync(entity: ReservationService): Promise<OperationResult<boolean>>;
+}
+
+export interface IReservationServiceService {
+  AddReservationServiceAsync(
+    reservationService: ReservationService
   ): Promise<OperationResult<ReservationService>>;
 
-  DeleteAsync(
-    entity: ReservationService
+  DeleteReservationServiceAsync(
+    reservationService: ReservationService
   ): Promise<OperationResult<ReservationService>>;
 }
