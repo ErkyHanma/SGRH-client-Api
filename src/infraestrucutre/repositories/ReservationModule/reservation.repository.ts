@@ -5,7 +5,7 @@ import {
 } from "@domain/entities/Base/OperationResult";
 import { Reservation } from "@domain/entities/ReservationModule/Reservation";
 import { IReservationRepository } from "@domain/interfaces/ReservationModuleTypes";
-import { client, db } from "@infraestrucutre/database";
+import { db } from "@infraestrucutre/database";
 import { reservationsTable } from "@infraestrucutre/database/schema/reservationModule.schema";
 import { usersTable } from "@infraestrucutre/database/schema/userManagement.schema";
 import { ReservationMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
@@ -19,9 +19,6 @@ export type ReservationWithName = {
 };
 
 export class ReservationRepository implements IReservationRepository {
-  getAllByIdAsync(id: number): Promise<OperationResult<ReservationWithName[]>> {
-    throw new Error("Method not implemented.");
-  }
   public async getAllAsync(): Promise<OperationResult<ReservationWithName[]>> {
     try {
       const reservations = await db
@@ -62,7 +59,7 @@ export class ReservationRepository implements IReservationRepository {
   }
 
   public async getByIdAsync(
-    id: number
+    reservationId: number
   ): Promise<OperationResult<ReservationWithName>> {
     try {
       const reservations = await db
@@ -78,14 +75,14 @@ export class ReservationRepository implements IReservationRepository {
         )
         .where(
           and(
-            eq(reservationsTable.reservation_id, id),
+            eq(reservationsTable.reservation_id, reservationId),
             eq(reservationsTable.is_active, true),
             eq(reservationsTable.is_deleted, false)
           )
         );
 
       if (reservations.length === 0) {
-        return failure(`Reservation with id ${id} not found`);
+        return failure(`Reservation with id ${reservationId} not found`);
       }
 
       const data = {
@@ -96,7 +93,61 @@ export class ReservationRepository implements IReservationRepository {
           reservations[0].userName + " " + reservations[0].userLastName,
       };
 
-      return success(`Reservation with ID ${id} retrieved successfully`, data);
+      return success(
+        `Reservation with ID ${reservationId} retrieved successfully`,
+        data
+      );
+    } catch (error) {
+      return failure(`Something went wrong: ${error}`);
+    }
+  }
+
+  public async getAllByIdAsync(
+    clientId: number
+  ): Promise<OperationResult<ReservationWithName[]>> {
+    try {
+      const reservations = await db
+        .select({
+          userName: usersTable.firstName,
+          userLastName: usersTable.lastName,
+          reservationsTable,
+        })
+        .from(reservationsTable)
+        .innerJoin(
+          usersTable,
+          eq(reservationsTable.client_id, usersTable.userId)
+        )
+        .where(
+          and(
+            eq(reservationsTable.client_id, clientId),
+            eq(reservationsTable.is_active, true),
+            eq(reservationsTable.is_deleted, false)
+          )
+        );
+
+      const clientName =
+        reservations[0].userName + " " + reservations[0].userLastName;
+
+      if (reservations.length === 0) {
+        return failure(`Reservations from client ${clientName} not found`);
+      }
+
+      const data = reservations.map((r) => {
+        const reservation = ReservationMapper.toReservationEntity(
+          r.reservationsTable
+        );
+        const clientName = r.userName + " " + r.userLastName;
+
+        return {
+          reservation,
+          clientName,
+        };
+      });
+
+      return success(
+        `All Reservation from the client ${clientName} retrieved successfully`,
+        data
+      );
     } catch (error) {
       return failure(`Something went wrong: ${error}`);
     }

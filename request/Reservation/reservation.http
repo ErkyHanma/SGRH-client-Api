@@ -5,7 +5,7 @@ GET http://localhost:4000/api/client/reservation
 GET http://localhost:4000/api/client/reservation/4
 
 ###
-GET http://localhost:4000/api/client/user/email/john.doe@example.com 
+GET http://localhost:4000/api/client/reservation/user/3
 
 ###
 POST http://localhost:4000/api/client/reservation HTTP/1.1

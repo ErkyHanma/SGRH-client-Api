@@ -61,6 +61,30 @@ export class ReservationService implements IReservationService {
       return failure(`Something went wrong ${error}`);
     }
   }
+
+  public async getAllReservationByID(
+    id: number
+  ): Promise<OperationResult<ReservationDto[]>> {
+    try {
+      const reservations = await this.reservationRepository.getAllByIdAsync(id);
+
+      if (!reservations.isSuccess || !reservations.data) {
+        return failure(reservations.message);
+      }
+
+      return success(
+        reservations.message,
+        reservations.data?.map((reservation) =>
+          ReservationMapper.toReservationDto(
+            reservation.reservation,
+            reservation.clientName
+          )
+        )
+      );
+    } catch (error) {
+      return failure(`Something went wrong ${error}`);
+    }
+  }
   public async AddReservation(
     entity: Reservation
   ): Promise<OperationResult<ReservationDto>> {

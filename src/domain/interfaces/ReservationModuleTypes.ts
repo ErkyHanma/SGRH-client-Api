@@ -25,6 +25,7 @@ export interface IReservationRepository {
 export interface IReservationService {
   getAllReservation(): Promise<OperationResult<ReservationDto[]>>;
   getReservationByID(id: number): Promise<OperationResult<ReservationDto>>;
+  getAllReservationByID(id: number): Promise<OperationResult<ReservationDto[]>>;
   AddReservation(user: Reservation): Promise<OperationResult<ReservationDto>>;
   updateReservation(
     id: number,

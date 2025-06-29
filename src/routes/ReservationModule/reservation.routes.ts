@@ -17,6 +17,11 @@ ReservationRoutes.get("/:id", async (req, res) => {
   res.json(result);
 });
 
+ReservationRoutes.get("/user/:id", async (req, res) => {
+  const result = await controller.getAllReservationByIDAsync(req, res);
+  res.json(result);
+});
+
 ReservationRoutes.post("/", async (req, res) => {
   const result = await controller.AddReservationAsync(req, res);
   res.json(result);
