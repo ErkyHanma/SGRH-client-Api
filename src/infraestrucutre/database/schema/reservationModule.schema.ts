@@ -26,7 +26,7 @@ export const reservationsTable = reservationModule.table(
     is_deleted: boolean("is_deleted").default(false),
     created_at: date("created_at").defaultNow(),
     created_by: integer("created_by"),
-    updated_at: date("updated_at"),
+    updated_at: date("updated_at").defaultNow(),
     updated_by: integer("updated_by"),
     deleted_at: date("deleted_at"),
     deleted_by: integer("deleted_by"),

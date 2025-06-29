@@ -1,3 +1,4 @@
+import { UserDto } from "@application/Dtos/UserManagement/UserDto";
 import { User } from "@domain/entities/UserManagement/User";
 import { UserModel } from "@infraestrucutre/database/schema/userManagement.schema";
 
@@ -42,5 +43,15 @@ export class UserMapper {
       isActive: entity.isActive,
       isDeleted: entity.isDeleted,
     };
+  }
+
+  static toUserDto(user: User): UserDto {
+    return new UserDto(
+      user.userId,
+      `${user.firstName} ${user.lastName}`,
+      user.email,
+      user.phone,
+      user.roleId
+    );
   }
 }
