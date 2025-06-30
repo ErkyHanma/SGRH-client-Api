@@ -1,5 +1,7 @@
 ###
+# Get all services 
 GET http://localhost:4000/api/client/service
 
 ###
+# Get service by ID
 GET http://localhost:4000/api/client/service/4
