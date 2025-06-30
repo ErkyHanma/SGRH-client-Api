@@ -6,90 +6,140 @@ import {
 import { Room } from "@domain/entities/Hotel/Room";
 import { IRoomRepository } from "@domain/interfaces/HotelTypes";
 import { db } from "@infraestrucutre/database";
-import { roomsTable } from "@infraestrucutre/database/schema/hotel.schema";
+import {
+  floorsTable,
+  rateTable,
+  room_categoryTable,
+  roomsTable,
+  seasonTable,
+} from "@infraestrucutre/database/schema/hotel.schema";
 import { RoomMapper } from "@infraestrucutre/mappers/hotel.mapper";
-import { DateNowToString } from "@shared/utils";
-import { eq } from "drizzle-orm";
+import { getCurrentSeasonId } from "@shared/utils";
+import { and, eq, gte, lte } from "drizzle-orm";
+
+export type RoomDetails = {
+  Room: Room;
+  floorNumber: number;
+  roomCategoryName: string;
+  roomCategoryDescription: string | null;
+  roomCategoryMaxCapacity: number | null;
+  roomAmenities: string | null;
+  roomImageUrl: string | null;
+  nightPrice: string;
+};
 
 export class RoomRepository implements IRoomRepository {
-  public async getAllAsync(): Promise<OperationResult<Room[]>> {
+  public async getAllAsync(): Promise<OperationResult<RoomDetails[]>> {
     try {
-      const rooms = await db.select().from(roomsTable);
+      const currentSeasonId = await getCurrentSeasonId(db, seasonTable);
 
-      const data = rooms.map((room) => RoomMapper.toRoomEntity(room));
-
-      return success("Users retrieve successfully", data);
-    } catch (error) {
-      return failure(`Something went wrong: ${error}`);
-    }
-  }
-
-  public async getByIdAsync(id: number): Promise<OperationResult<Room>> {
-    try {
       const rooms = await db
-        .select()
-        .from(roomsTable)
-        .where(eq(roomsTable.room_id, id));
-
-      const data = RoomMapper.toRoomEntity(rooms[0]);
-
-      return success(`User ${id} retrieve successfully`, data);
-    } catch (error) {
-      return failure(`Something went wrong: ${error}`);
-    }
-  }
-  public async addAsync(entity: Room): Promise<OperationResult<Room>> {
-    try {
-      const [user] = await db
-        .insert(roomsTable)
-        .values(RoomMapper.toRoomModel(entity))
-        .returning();
-
-      const data = RoomMapper.toRoomEntity(user);
-
-      return success(`Room added successfully`, data);
-    } catch (error) {
-      return failure(`Something went wrong: ${error}`);
-    }
-  }
-
-  public async updateAsync(entity: Room): Promise<OperationResult<Room>> {
-    try {
-      const [updated] = await db
-        .update(roomsTable)
-        .set(RoomMapper.toRoomModel(entity))
-        .where(eq(roomsTable.room_id, entity.roomId))
-        .returning();
-
-      if (!updated) {
-        return failure(`Room with id ${entity.roomId} not found`);
-      }
-
-      const data = RoomMapper.toRoomEntity(updated);
-      return success(`Room updated successfully`, data);
-    } catch (error) {
-      return failure(`Something went wrong: ${error}`);
-    }
-  }
-
-  public async deleteAsync(entity: Room): Promise<OperationResult<Room>> {
-    try {
-      const [deleted] = await db
-        .update(roomsTable)
-        .set({
-          is_deleted: true,
-          is_active: false,
-          deleted_at: DateNowToString(),
+        .select({
+          Room: roomsTable,
+          floorNumber: floorsTable.floor_number,
+          roomCategoryName: room_categoryTable.name,
+          roomCategoryDescription: room_categoryTable.description,
+          roomCategoryMaxCapacity: room_categoryTable.max_capacity,
+          roomAmenities: room_categoryTable.amenities,
+          roomImageUrl: roomsTable.room_img_url,
+          nightPrice: rateTable.night_price,
         })
-        .where(eq(roomsTable.room_id, entity.roomId))
-        .returning();
+        .from(roomsTable)
+        .innerJoin(floorsTable, eq(floorsTable.floor_id, roomsTable.floor_id))
+        .innerJoin(rateTable, eq(rateTable.category_id, roomsTable.category_id))
+        .innerJoin(
+          room_categoryTable,
+          eq(room_categoryTable.category_id, rateTable.category_id)
+        )
+        .where(
+          and(
+            eq(roomsTable.is_active, true),
+            eq(roomsTable.is_deleted, false),
+            eq(rateTable.season_id, currentSeasonId ?? 2)
+          )
+        );
 
-      if (!deleted) {
-        return failure(`Room with id ${entity.roomId} not found`);
+      if (!rooms) {
+        return failure("Rooms cannot be retrieve");
       }
 
-      const data = RoomMapper.toRoomEntity(deleted);
-      return success(`Room deleted successfully`, data);
+      const data = rooms.map((r) => {
+        const Room = RoomMapper.toRoomEntity(r.Room);
+        const floorNumber = r.floorNumber;
+        const roomCategoryName = r.roomCategoryName;
+        const roomCategoryDescription = r.roomCategoryDescription;
+        const roomCategoryMaxCapacity = r.roomCategoryMaxCapacity;
+        const roomAmenities = r.roomAmenities;
+        const roomImageUrl = r.roomImageUrl;
+        const nightPrice = r.nightPrice;
+
+        return {
+          Room,
+          floorNumber,
+          roomCategoryName,
+          roomCategoryDescription,
+          roomCategoryMaxCapacity,
+          roomAmenities,
+          roomImageUrl,
+          nightPrice,
+        };
+      });
+
+      return success("Rooms retrieve successfully", data);
+    } catch (error) {
+      return failure(`Something went wrong: ${error}`);
+    }
+  }
+
+  public async getByIdAsync(
+    roomId: number
+  ): Promise<OperationResult<RoomDetails>> {
+    try {
+      const currentSeasonId = await getCurrentSeasonId(db, seasonTable);
+
+      const [room] = await db
+        .select({
+          Room: roomsTable,
+          floorNumber: floorsTable.floor_number,
+          roomCategoryName: room_categoryTable.name,
+          roomCategoryDescription: room_categoryTable.description,
+          roomCategoryMaxCapacity: room_categoryTable.max_capacity,
+          roomAmenities: room_categoryTable.amenities,
+          roomImageUrl: roomsTable.room_img_url,
+          nightPrice: rateTable.night_price,
+        })
+        .from(roomsTable)
+        .innerJoin(floorsTable, eq(floorsTable.floor_id, roomsTable.floor_id))
+        .innerJoin(rateTable, eq(rateTable.category_id, roomsTable.category_id))
+        .innerJoin(
+          room_categoryTable,
+          eq(room_categoryTable.category_id, rateTable.category_id)
+        )
+        .where(
+          and(
+            eq(roomsTable.room_id, roomId),
+            eq(roomsTable.is_active, true),
+            eq(roomsTable.is_deleted, false),
+            eq(rateTable.season_id, currentSeasonId ?? 2)
+          )
+        );
+
+      if (!room) {
+        return failure(`Room with the ID ${roomId} cannot be retrieve`);
+      }
+
+      const data = {
+        Room: RoomMapper.toRoomEntity(room.Room),
+        floorNumber: room.floorNumber,
+        roomCategoryName: room.roomCategoryName,
+        roomCategoryDescription: room.roomCategoryDescription,
+        roomCategoryMaxCapacity: room.roomCategoryMaxCapacity,
+        roomAmenities: room.roomAmenities,
+        roomImageUrl: room.roomImageUrl,
+        nightPrice: room.nightPrice,
+      };
+
+      return success(`Room with ID ${roomId} retrieve successfully`, data);
     } catch (error) {
       return failure(`Something went wrong: ${error}`);
     }

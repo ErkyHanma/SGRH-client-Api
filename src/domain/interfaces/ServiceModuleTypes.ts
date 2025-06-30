@@ -1,7 +1,6 @@
 import { serviceDto } from "@application/Dtos/ServiceModule/ServiceDto";
 import { OperationResult } from "@domain/entities/Base/OperationResult";
 import { Service } from "@domain/entities/ServiceModule/Service";
-import { IBaseRepository } from "@domain/interfaces/BaseTypes";
 
 // Repositories
 export interface IServiceRepository {

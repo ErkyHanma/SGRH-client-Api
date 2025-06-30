@@ -22,8 +22,6 @@ export class UserRepository implements IUserRepository {
           and(eq(usersTable.isActive, true), eq(usersTable.isDeleted, false))
         );
 
-      console.log(users[0]);
-
       const data = users.map((user) => UserMapper.toUserEntity(user));
 
       return success("Users retrieve successfully", data);

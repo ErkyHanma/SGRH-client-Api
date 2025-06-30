@@ -1,5 +1,14 @@
-import { Room } from "@domain/entities/Hotel/Room";
-import { IBaseRepository } from "@domain/interfaces/BaseTypes";
+import { RoomDto } from "@application/Dtos/Hotel/RoomDto";
+import { OperationResult } from "@domain/entities/Base/OperationResult";
+import { RoomDetails } from "@infraestrucutre/repositories/Hotel/room.repository";
 
 // Repositories
-export interface IRoomRepository extends IBaseRepository<Room> {}
+export interface IRoomRepository {
+  getAllAsync(): Promise<OperationResult<RoomDetails[]>>;
+  getByIdAsync(id: number): Promise<OperationResult<RoomDetails>>;
+}
+
+export interface IRoomService {
+  getAllRoomAsync(): Promise<OperationResult<RoomDto[]>>;
+  getRoomByIdAsync(id: number): Promise<OperationResult<RoomDto>>;
+}

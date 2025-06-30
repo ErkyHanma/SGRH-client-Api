@@ -1,3 +1,4 @@
+import { InferModel, InferSelectViewModel } from "drizzle-orm";
 import {
   serial,
   integer,
@@ -37,7 +38,7 @@ export const floorsTable = hotel.table(
 
 export const room_categoryTable = hotel.table("room_category", {
   category_id: serial("category_id").primaryKey(),
-  name: varchar("name", { length: 100 }),
+  name: varchar("name", { length: 100 }).notNull(),
   description: text("description"),
   max_capacity: integer("max_capacity"),
   amenities: text("amenities"),
@@ -94,7 +95,7 @@ export const rateTable = hotel.table("rate", {
     () => room_categoryTable.category_id
   ),
   season_id: integer("season_id").references(() => seasonTable.season_id),
-  night_price: numeric("night_price", { precision: 10, scale: 2 }),
+  night_price: numeric("night_price", { precision: 10, scale: 2 }).notNull(),
   is_active: boolean("is_active").default(true),
   is_deleted: boolean("is_deleted").default(false),
   created_at: date("created_at").defaultNow(),
