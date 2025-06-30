@@ -1,14 +1,14 @@
-import { Floor } from "@domain/entities/Hotel/Floor";
-import { Rate } from "@domain/entities/Hotel/Rate";
-import { Room } from "@domain/entities/Hotel/Room";
-import { RoomCategory } from "@domain/entities/Hotel/RoomCategory";
-import { Season } from "@domain/entities/Hotel/Season";
-import { IBaseRepository } from "@domain/interfaces/BaseTypes";
+import { RoomDto } from "@application/Dtos/Hotel/RoomDto";
+import { OperationResult } from "@domain/entities/Base/OperationResult";
+import { RoomDetails } from "@infraestrucutre/repositories/Hotel/room.repository";
 
 // Repositories
-export interface IFloorRepository extends IBaseRepository<Floor> {}
-export interface IRateRepository extends IBaseRepository<Rate> {}
-export interface IRoomRepository extends IBaseRepository<Room> {}
-export interface IRoomCategoryRepository
-  extends IBaseRepository<RoomCategory> {}
-export interface ISeasonRepository extends IBaseRepository<Season> {}
+export interface IRoomRepository {
+  getAllAsync(): Promise<OperationResult<RoomDetails[]>>;
+  getByIdAsync(id: number): Promise<OperationResult<RoomDetails>>;
+}
+
+export interface IRoomService {
+  getAllRoomAsync(): Promise<OperationResult<RoomDto[]>>;
+  getRoomByIdAsync(id: number): Promise<OperationResult<RoomDto>>;
+}

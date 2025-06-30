@@ -1,10 +1,12 @@
 export abstract class AuditEntity {
-  created_at: Date = new Date();
-  created_by?: number;
-  updated_at?: Date;
-  updated_by?: number;
-  deleted_at?: Date;
-  deleted_by?: number;
-  is_active: boolean = true;
-  is_deleted: boolean = false;
+  constructor(
+    public readonly createdAt: Date = new Date(),
+    public readonly createdBy: number | null,
+    public readonly updatedAt: Date | null,
+    public readonly updatedBy: number | null,
+    public readonly deletedAt: Date | null,
+    public readonly deletedBy: number | null,
+    public readonly isActive: boolean = true,
+    public readonly isDeleted: boolean = false
+  ) {}
 }

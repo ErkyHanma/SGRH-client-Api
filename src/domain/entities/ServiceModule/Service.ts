@@ -1,8 +1,29 @@
 import { AuditEntity } from "@domain/entities/Base/AuditEntity";
 
 export class Service extends AuditEntity {
-  service_id?: number;
-  name: string;
-  description: string;
-  price: number;
+  constructor(
+    public serviceId: number,
+    public name: string,
+    public description: string,
+    public price: number,
+    createdAt: Date,
+    createdBy: number,
+    updatedAt: Date,
+    updatedBy: number,
+    deletedAt: Date,
+    deletedBy: number,
+    isActive: boolean = true,
+    isDeleted: boolean = false
+  ) {
+    super(
+      createdAt,
+      createdBy,
+      updatedAt,
+      updatedBy,
+      deletedAt,
+      deletedBy,
+      isActive,
+      isDeleted
+    );
+  }
 }
