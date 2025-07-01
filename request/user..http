@@ -7,11 +7,11 @@ GET http://localhost:4000/api/client/user
 
 ###
 # Get user by ID 
-GET http://localhost:4000/api/client/user/2
+GET http://localhost:4000/api/client/user/7
 
 ###
 # Get user by email 
-GET http://localhost:4000/api/client/user/email/john.doe@example.com 
+GET http://localhost:4000/api/client/user/email/sarah.wilson@email.com
 
 ###
 # Add a new user 
@@ -20,8 +20,8 @@ Content-Type: application/json
 
 {
   "firstName": "Juan",
-  "lastName": "Doe",
-  "email": "Juan.doe@example.com",
+  "lastName": "Mota",
+  "email": "juan@example.com",
   "passwordHash": "hashed_password_here",
   "roleId": 3,
   "phone": "+1-555-1234",
@@ -30,13 +30,13 @@ Content-Type: application/json
 
 ###
 # Update user by ID 
-PUT http://localhost:4000/api/client/user/3 HTTP/1.1
+PUT http://localhost:4000/api/client/user/11 HTTP/1.1
 Content-Type: application/json
 
 {
-  "firstName": "Yenzel",
-  "lastName": "Doe",
-  "email": "edwin.doe@example.com",
+  "firstName": "Juan",
+  "lastName": "steven",
+  "email": "juan.doe@example.com",
   "passwordHash": "hashed_password_here",
   "roleId": 3,
   "phone": "+1-555-1234",
@@ -45,4 +45,4 @@ Content-Type: application/json
 
 ###
 # Delete user by ID 
-DELETE http://localhost:4000/api/client/user/3 HTTP/1.1
+DELETE http://localhost:4000/api/client/user/11 HTTP/1.1

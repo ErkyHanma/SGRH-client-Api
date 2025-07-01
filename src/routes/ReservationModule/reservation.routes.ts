@@ -1,11 +1,8 @@
 import { Router } from "express";
-import { ReservationRepository } from "@infraestrucutre/repositories/ReservationModule/reservation.repository";
 import { ReservationController } from "@controllers/ReservationModule/reservation.controller";
-import { ReservationService } from "@application/services/ReservationModule/reservation.service";
 
 const ReservationRoutes = Router();
-const service = new ReservationService(new ReservationRepository());
-const controller = new ReservationController(service);
+const controller = new ReservationController();
 
 ReservationRoutes.get("/", async (req, res) => {
   const result = await controller.getAllReservationAsync(req, res);

@@ -1,12 +1,8 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { IServiceService } from "@domain/interfaces/ServiceModuleTypes";
+import { ServiceContainer } from "@infraestrucutre/DIContainers/service.container";
 
 export class ServiceController {
-  private readonly serviceService: IServiceService;
-
-  constructor(serviceService: IServiceService) {
-    this.serviceService = serviceService;
-  }
+  private readonly serviceService = ServiceContainer.getServiceService();
 
   public async getAllServicesAsync(req: any, res: any) {
     try {

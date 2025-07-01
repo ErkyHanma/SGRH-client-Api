@@ -1,13 +1,8 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { IRoomService } from "@domain/interfaces/HotelTypes";
-import { IServiceService } from "@domain/interfaces/ServiceModuleTypes";
+import { RoomContainer } from "@infraestrucutre/DIContainers/room.container";
 
 export class RoomController {
-  private readonly roomService: IRoomService;
-
-  constructor(roomService: IRoomService) {
-    this.roomService = roomService;
-  }
+  private readonly roomService = RoomContainer.getRoomService();
 
   public async getAllRoomAsync(req: any, res: any) {
     try {

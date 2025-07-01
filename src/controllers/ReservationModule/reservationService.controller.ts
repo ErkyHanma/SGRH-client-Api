@@ -1,12 +1,9 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { IReservationServiceService } from "@domain/interfaces/ReservationModuleTypes";
+import { ReservationServiceContainer } from "@infraestrucutre/DIContainers/reservationService.container";
 
 export class ReservationServiceController {
-  private readonly reservationServiceService: IReservationServiceService;
-
-  constructor(reservationServiceService: IReservationServiceService) {
-    this.reservationServiceService = reservationServiceService;
-  }
+  private readonly reservationServiceService =
+    ReservationServiceContainer.getReservationServiceService();
 
   public async AddReservationServiceAsync(req: any, res: any) {
     try {
@@ -44,9 +41,7 @@ export class ReservationServiceController {
         return res.status(400).json(reservation.message);
       }
 
-      return res
-        .status(200)
-        .json(success(reservation.message));
+      return res.status(200).json(success(reservation.message));
     } catch (error) {
       return res
         .status(500)

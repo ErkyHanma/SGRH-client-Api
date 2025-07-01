@@ -1,12 +1,8 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { IReservationService } from "@domain/interfaces/ReservationModuleTypes";
+import { ReservationContainer } from "@infraestrucutre/DIContainers/reservation.container";
 
 export class ReservationController {
-  private readonly reservationService: IReservationService;
-
-  constructor(reservationService: IReservationService) {
-    this.reservationService = reservationService;
-  }
+  private readonly reservationService = ReservationContainer.getReservationService();
 
   public async getAllReservationAsync(req: any, res: any) {
     try {

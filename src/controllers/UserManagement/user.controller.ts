@@ -1,9 +1,9 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
 import { User } from "@domain/entities/UserManagement/User";
-import { IUserRepository, IUserService } from "@domain/interfaces/UserTypes";
+import { UserContainer } from "@infraestrucutre/DIContainers/user.container";
 
 export class UserController {
-  constructor(private userService: IUserService) {}
+  private readonly userService = UserContainer.getUserService();
 
   public async getAllUserAsync(req: any, res: any) {
     try {

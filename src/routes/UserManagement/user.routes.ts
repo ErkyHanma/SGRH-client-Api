@@ -1,11 +1,8 @@
-import { UserRepository } from "@infraestrucutre/repositories/UserManagement/user.repository";
 import { UserController } from "@controllers/UserManagement/user.controller";
 import { Router } from "express";
-import { UserService } from "@application/services/UserManagement/user.service";
 
 const userRoutes = Router();
-const service = new UserService(new UserRepository());
-const controller = new UserController(service);
+const controller = new UserController();
 
 userRoutes.get("/", async (req, res) => {
   const result = await controller.getAllUserAsync(req, res);
