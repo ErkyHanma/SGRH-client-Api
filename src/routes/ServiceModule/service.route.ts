@@ -4,14 +4,10 @@ import { Router } from "express";
 const ServiceRoutes = Router();
 const controller = new ServiceController();
 
-ServiceRoutes.get("/", async (req, res) => {
-  const result = await controller.getAllServicesAsync(req, res);
-  res.json(result);
-});
+ServiceRoutes.get("/", (req, res) => controller.getAllServicesAsync(req, res));
 
-ServiceRoutes.get("/:id", async (req, res) => {
-  const result = await controller.getServicesByIdAsync(req, res);
-  res.json(result);
-});
+ServiceRoutes.get("/:id", async (req, res) =>
+  controller.getServicesByIdAsync(req, res)
+);
 
 export default ServiceRoutes;

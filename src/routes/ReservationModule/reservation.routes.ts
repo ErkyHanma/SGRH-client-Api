@@ -4,39 +4,32 @@ import { ReservationController } from "@controllers/ReservationModule/reservatio
 const ReservationRoutes = Router();
 const controller = new ReservationController();
 
-ReservationRoutes.get("/", async (req, res) => {
-  const result = await controller.getAllReservationAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.get("/", (req, res) =>
+  controller.getAllReservationAsync(req, res)
+);
 
-ReservationRoutes.get("/:id", async (req, res) => {
-  const result = await controller.getReservationByIDAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.get("/:id", (req, res) =>
+  controller.getReservationByIDAsync(req, res)
+);
 
-ReservationRoutes.get("/user/:id", async (req, res) => {
-  const result = await controller.getAllReservationByIDAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.get("/user/:id", (req, res) =>
+  controller.getAllReservationByIDAsync(req, res)
+);
 
-ReservationRoutes.post("/", async (req, res) => {
-  const result = await controller.AddReservationAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.post("/", (req, res) =>
+  controller.AddReservationAsync(req, res)
+);
 
-ReservationRoutes.put("/:id", async (req, res) => {
-  const result = await controller.UpdateReservationAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.put("/:id", (req, res) =>
+  controller.UpdateReservationAsync(req, res)
+);
 
-ReservationRoutes.delete("/:id", async (req, res) => {
-  const result = await controller.DeleteReservationAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.delete("/:id", (req, res) =>
+  controller.DeleteReservationAsync(req, res)
+);
 
-ReservationRoutes.post("/available", async (req, res) => {
-  const result = await controller.CheckRoomAvailabilityAsync(req, res);
-  res.json(result);
-});
+ReservationRoutes.post("/available", (req, res) =>
+  controller.CheckRoomAvailabilityAsync(req, res)
+);
 
 export default ReservationRoutes;

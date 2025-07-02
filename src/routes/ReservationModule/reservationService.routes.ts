@@ -4,14 +4,12 @@ import { ReservationServiceController } from "@controllers/ReservationModule/res
 const ReservationServicesRoutes = Router();
 const controller = new ReservationServiceController();
 
-ReservationServicesRoutes.post("/", async (req, res) => {
-  const result = await controller.AddReservationServiceAsync(req, res);
-  res.json(result);
-});
+ReservationServicesRoutes.post("/", (req, res) =>
+  controller.AddReservationServiceAsync(req, res)
+);
 
-ReservationServicesRoutes.post("/delete", async (req, res) => {
-  const result = await controller.DeleteReservationServiceAsync(req, res);
-  res.json(result);
-});
+ReservationServicesRoutes.post("/delete", (req, res) =>
+  controller.DeleteReservationServiceAsync(req, res)
+);
 
 export default ReservationServicesRoutes;

@@ -4,34 +4,24 @@ import { Router } from "express";
 const userRoutes = Router();
 const controller = new UserController();
 
-userRoutes.get("/", async (req, res) => {
-  const result = await controller.getAllUserAsync(req, res);
-  res.json(result);
-});
+userRoutes.get("/", async (req, res) => controller.getAllUserAsync(req, res));
 
-userRoutes.get("/:id", async (req, res) => {
-  const result = await controller.getUserByIDAsync(req, res);
-  res.json(result);
-});
+userRoutes.get("/:id", async (req, res) =>
+  controller.getUserByIDAsync(req, res)
+);
 
-userRoutes.get("/email/:email", async (req, res) => {
-  const result = await controller.getUserEmailAsync(req, res);
-  res.json(result);
-});
+userRoutes.get("/email/:email", async (req, res) =>
+  controller.getUserEmailAsync(req, res)
+);
 
-userRoutes.post("/", async (req, res) => {
-  const result = await controller.AddUserAsync(req, res);
-  res.json(result);
-});
+userRoutes.post("/", async (req, res) => controller.AddUserAsync(req, res));
 
-userRoutes.put("/:id", async (req, res) => {
-  const result = await controller.UpdateUserAsync(req, res);
-  res.json(result);
-});
+userRoutes.put("/:id", async (req, res) =>
+  controller.UpdateUserAsync(req, res)
+);
 
-userRoutes.delete("/:id", async (req, res) => {
-  const result = await controller.DeleteUserAsync(req, res);
-  res.json(result);
-});
+userRoutes.delete("/:id", async (req, res) =>
+  controller.DeleteUserAsync(req, res)
+);
 
 export default userRoutes;
