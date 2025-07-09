@@ -15,5 +15,5 @@ Content-Type: application/json
 
 {
   "reservationId": 4,
-  "serviceId":4
+  "serviceId":2
 }

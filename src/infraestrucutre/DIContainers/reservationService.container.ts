@@ -1,9 +1,11 @@
 import { ReservationServiceService } from "@application/services/ReservationModule/reservationService.service";
+import { Logger } from "@infraestrucutre/logger/logger";
 import { ReservationServiceRepository } from "@infraestrucutre/repositories/ReservationModule/reservationService.repository";
 
 class ReservationServiceContainer {
+  private static logger = new Logger();
   private static reservationServiceRepository =
-    new ReservationServiceRepository();
+    new ReservationServiceRepository(ReservationServiceContainer.logger);
 
   static getReservationServiceRepository() {
     return this.reservationServiceRepository;
@@ -11,7 +13,8 @@ class ReservationServiceContainer {
 
   static getReservationServiceService() {
     return new ReservationServiceService(
-      this.getReservationServiceRepository()
+      this.getReservationServiceRepository(),
+      this.logger
     );
   }
 }

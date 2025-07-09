@@ -4,6 +4,7 @@ import {
   success,
 } from "@domain/entities/Base/OperationResult";
 import { Reservation } from "@domain/entities/ReservationModule/Reservation";
+import { ILogger } from "@domain/interfaces/ILogger";
 import { IReservationRepository } from "@domain/interfaces/ReservationModuleTypes";
 import { db } from "@infraestrucutre/database";
 import { reservationsTable } from "@infraestrucutre/database/schema/reservationModule.schema";
@@ -19,7 +20,14 @@ export type ReservationWithName = {
 };
 
 export class ReservationRepository implements IReservationRepository {
+  private readonly logger: ILogger;
+
+  constructor(logger: ILogger) {
+    this.logger = logger;
+  }
+
   public async getAllAsync(): Promise<OperationResult<ReservationWithName[]>> {
+    this.logger.Info("Fetching all reservations");
     try {
       const reservations = await db
         .select({
@@ -54,13 +62,15 @@ export class ReservationRepository implements IReservationRepository {
 
       return success("Reservations retrieved successfully", data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error("Error while fetching all reservations", error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async getByIdAsync(
     reservationId: number
   ): Promise<OperationResult<ReservationWithName>> {
+    this.logger.Info(`Fetching reservation with ID: ${reservationId}`);
     try {
       const reservations = await db
         .select({
@@ -98,13 +108,18 @@ export class ReservationRepository implements IReservationRepository {
         data
       );
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while fetching reservation with ID: ${reservationId}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async getAllByIdAsync(
     clientId: number
   ): Promise<OperationResult<ReservationWithName[]>> {
+    this.logger.Info(`Fetching all reservation for user with ID: ${clientId}`);
     try {
       const reservations = await db
         .select({
@@ -149,13 +164,18 @@ export class ReservationRepository implements IReservationRepository {
         data
       );
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while fetching all reservation for the user with ID: ${clientId}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async addAsync(
     entity: Reservation
   ): Promise<OperationResult<ReservationWithName>> {
+    this.logger.Info(`Adding new reservation`);
     try {
       const [inserted] = await db
         .insert(reservationsTable)
@@ -194,7 +214,8 @@ export class ReservationRepository implements IReservationRepository {
 
       return success(`Reservation added successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while adding new reservation`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
@@ -202,6 +223,7 @@ export class ReservationRepository implements IReservationRepository {
     id: number,
     entity: Reservation
   ): Promise<OperationResult<ReservationWithName>> {
+    this.logger.Info(`Updating reservation with ID: ${id}`);
     try {
       const [updated] = await db
         .update(reservationsTable)
@@ -241,13 +263,18 @@ export class ReservationRepository implements IReservationRepository {
 
       return success(`Reservation updated successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while updating reservation with ID: ${id}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async deleteAsync(
     id: number
   ): Promise<OperationResult<ReservationWithName>> {
+    this.logger.Info(`Deleting reservation with ID: ${id}`);
     try {
       await db
         .update(reservationsTable)
@@ -260,7 +287,11 @@ export class ReservationRepository implements IReservationRepository {
 
       return success(`Reservation deleted successfully`);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while deleting reservation with ID ${id}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
@@ -269,6 +300,9 @@ export class ReservationRepository implements IReservationRepository {
     startDate: Date,
     endDate: Date
   ): Promise<OperationResult<boolean>> {
+    this.logger.Info(
+      `Checking Room Availability for the Room ${roomId}. Start Date: ${startDate} End Date: ${endDate}`
+    );
     try {
       const overlappingReservations = await db
         .select()
@@ -289,7 +323,8 @@ export class ReservationRepository implements IReservationRepository {
 
       return success("The room is available for reservation.");
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while Checking Room Availability `, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }

@@ -4,6 +4,7 @@ import {
   success,
 } from "@domain/entities/Base/OperationResult";
 import { ReservationService } from "@domain/entities/ReservationModule/ReservationService";
+import { ILogger } from "@domain/interfaces/ILogger";
 import { IReservationServiceRepository } from "@domain/interfaces/ReservationModuleTypes";
 import { db } from "@infraestrucutre/database";
 import { reservationServiceTable } from "@infraestrucutre/database/schema/reservationModule.schema";
@@ -14,9 +15,18 @@ import { and, eq } from "drizzle-orm";
 export class ReservationServiceRepository
   implements IReservationServiceRepository
 {
+  private readonly logger: ILogger;
+
+  constructor(logger: ILogger) {
+    this.logger = logger;
+  }
+
   public async AddAsync(
     entity: ReservationService
   ): Promise<OperationResult<boolean>> {
+    this.logger.Info(
+      `Adding Service to reservation with ID ${entity.reservationId}`
+    );
     try {
       const [service] = await db
         .select()
@@ -53,12 +63,18 @@ export class ReservationServiceRepository
 
       return success(`Service ${service.name} added correctly`);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while adding service to reservation with ID: ${entity.reservationId}`
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
   public async DeleteAsync(
     entity: ReservationService
   ): Promise<OperationResult<boolean>> {
+    this.logger.Info(
+      `Deleting Service from reservation with ID ${entity.reservationId}`
+    );
     try {
       const [service] = await db
         .select()
@@ -85,7 +101,10 @@ export class ReservationServiceRepository
 
       return success("Service removed from reservation successfully");
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while adding service to reservation with ID: ${entity.reservationId}`
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }

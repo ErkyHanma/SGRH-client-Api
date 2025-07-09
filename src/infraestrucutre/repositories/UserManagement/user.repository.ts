@@ -5,15 +5,23 @@ import {
   success,
 } from "@domain/entities/Base/OperationResult";
 import { User } from "@domain/entities/UserManagement/User";
+import { ILogger } from "@domain/interfaces/ILogger";
 import { IUserRepository } from "@domain/interfaces/UserTypes";
 import { db } from "@infraestrucutre/database";
 import { usersTable } from "@infraestrucutre/database/schema/userManagement.schema";
 import { UserMapper } from "@infraestrucutre/mappers/user.mapper";
 import { DateNowToString } from "@shared/utils";
-import { and, eq, is } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export class UserRepository implements IUserRepository {
+  private readonly logger: ILogger;
+
+  constructor(logger: ILogger) {
+    this.logger = logger;
+  }
+
   public async getAllAsync(): Promise<OperationResult<User[]>> {
+    this.logger.Info("Fetching all users");
     try {
       const users = await db
         .select()
@@ -26,10 +34,13 @@ export class UserRepository implements IUserRepository {
 
       return success("Users retrieve successfully", data);
     } catch (error) {
+      this.logger.Error("Error while fetching all users", error);
       return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
+
   public async getByIdAsync(id: number): Promise<OperationResult<User>> {
+    this.logger.Info(`Fetching user with ID: ${id}`);
     try {
       const user = await db
         .select()
@@ -48,13 +59,15 @@ export class UserRepository implements IUserRepository {
 
       const data = UserMapper.toUserEntity(user[0]);
 
-      return success(`User ${id} retrieve successfully`, data);
+      return success(`User ${id} retrieved successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while fetching user with ID: ${id}`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async getByEmail(email: string): Promise<OperationResult<User>> {
+    this.logger.Info(`Fetching user by email. Email: ${email}`);
     try {
       const user = await db
         .select()
@@ -73,12 +86,15 @@ export class UserRepository implements IUserRepository {
 
       const data = UserMapper.toUserEntity(user[0]);
 
-      return success("User retrieve successfully", data);
+      return success("User retrieved successfully", data);
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(`Error while fetching user by email`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
+
   public async addAsync(entity: User): Promise<OperationResult<User>> {
+    this.logger.Info(`Adding user ${entity.firstName + " " + entity.lastName}`);
     try {
       const [created] = await db
         .insert(usersTable)
@@ -89,7 +105,8 @@ export class UserRepository implements IUserRepository {
 
       return success(`User added successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while adding user`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
@@ -97,6 +114,7 @@ export class UserRepository implements IUserRepository {
     id: number,
     entity: User
   ): Promise<OperationResult<User>> {
+    this.logger.Info(`Updating user with ID: ${id}`);
     try {
       const [exist] = await db
         .select()
@@ -130,11 +148,13 @@ export class UserRepository implements IUserRepository {
       const data = UserMapper.toUserEntity(updated);
       return success("User updated successfully", data);
     } catch (error) {
+      this.logger.Error(`Error while updating user`, error);
       return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async deleteAsync(id: number): Promise<OperationResult<User>> {
+    this.logger.Info(`Deleting user with ID: ${id}`);
     try {
       const [exist] = await db
         .select()
@@ -168,7 +188,8 @@ export class UserRepository implements IUserRepository {
       const data = UserMapper.toUserEntity(deleted);
       return success(`User deleted successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while deleting user`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }

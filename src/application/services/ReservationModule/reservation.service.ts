@@ -5,18 +5,20 @@ import {
   success,
 } from "@domain/entities/Base/OperationResult";
 import { Reservation } from "@domain/entities/ReservationModule/Reservation";
+import { ILogger } from "@domain/interfaces/ILogger";
 import {
   IReservationRepository,
   IReservationService,
 } from "@domain/interfaces/ReservationModuleTypes";
 import { ReservationMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
-import { ReservationWithName } from "@infraestrucutre/repositories/ReservationModule/reservation.repository";
 
 export class ReservationService implements IReservationService {
   private readonly reservationRepository: IReservationRepository;
+  private readonly logger: ILogger;
 
-  constructor(reservationRepository: IReservationRepository) {
+  constructor(reservationRepository: IReservationRepository, logger: ILogger) {
     this.reservationRepository = reservationRepository;
+    this.logger = logger;
   }
 
   public async getAllReservation(): Promise<OperationResult<ReservationDto[]>> {
@@ -24,6 +26,7 @@ export class ReservationService implements IReservationService {
       const reservations = await this.reservationRepository.getAllAsync();
 
       if (!reservations.isSuccess) {
+        this.logger.Error(reservations.message);
         return failure(reservations.message);
       }
 
@@ -37,6 +40,7 @@ export class ReservationService implements IReservationService {
         )
       );
     } catch (error) {
+      this.logger.Error("Error while fetching all reservations", error);
       return failure(`Something went wrong ${error}`);
     }
   }
@@ -47,6 +51,7 @@ export class ReservationService implements IReservationService {
       const reservation = await this.reservationRepository.getByIdAsync(id);
 
       if (!reservation.isSuccess || !reservation.data) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
@@ -58,7 +63,11 @@ export class ReservationService implements IReservationService {
         )
       );
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(
+        `Error while fetching reservation with ID: ${id}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
@@ -69,6 +78,7 @@ export class ReservationService implements IReservationService {
       const reservations = await this.reservationRepository.getAllByIdAsync(id);
 
       if (!reservations.isSuccess || !reservations.data) {
+        this.logger.Error(reservations.message);
         return failure(reservations.message);
       }
 
@@ -82,7 +92,11 @@ export class ReservationService implements IReservationService {
         )
       );
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(
+        `Error while fetching all reservation for the user with ID: ${id}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
   public async AddReservation(
@@ -92,6 +106,7 @@ export class ReservationService implements IReservationService {
       const reservation = await this.reservationRepository.addAsync(entity);
 
       if (!reservation.isSuccess || !reservation.data) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
@@ -103,7 +118,8 @@ export class ReservationService implements IReservationService {
         )
       );
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(`Error while adding new reservation`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
   public async updateReservation(
@@ -117,6 +133,7 @@ export class ReservationService implements IReservationService {
       );
 
       if (!reservation.isSuccess || !reservation.data) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
@@ -128,7 +145,11 @@ export class ReservationService implements IReservationService {
         )
       );
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(
+        `Error while updating reservation with ID: ${id}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
   public async deleteReservation(
@@ -138,12 +159,17 @@ export class ReservationService implements IReservationService {
       const reservation = await this.reservationRepository.deleteAsync(id);
 
       if (!reservation.isSuccess) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
       return success(reservation.message);
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(
+        `Error while deleting reservation with ID ${id}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
   public async CheckRoomAvailability(
@@ -160,12 +186,14 @@ export class ReservationService implements IReservationService {
         );
 
       if (!reservation.isSuccess) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
       return success(reservation.message);
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(`Error while Checking Room Availability `, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }

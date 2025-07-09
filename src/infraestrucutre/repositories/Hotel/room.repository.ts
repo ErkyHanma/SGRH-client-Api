@@ -5,6 +5,7 @@ import {
 } from "@domain/entities/Base/OperationResult";
 import { Room } from "@domain/entities/Hotel/Room";
 import { IRoomRepository } from "@domain/interfaces/HotelTypes";
+import { ILogger } from "@domain/interfaces/ILogger";
 import { db } from "@infraestrucutre/database";
 import {
   floorsTable,
@@ -29,7 +30,14 @@ export type RoomDetails = {
 };
 
 export class RoomRepository implements IRoomRepository {
+  private readonly logger: ILogger;
+
+  constructor(logger: ILogger) {
+    this.logger = logger;
+  }
+
   public async getAllAsync(): Promise<OperationResult<RoomDetails[]>> {
+    this.logger.Info(`Fetching all rooms`);
     try {
       const currentSeasonId = await getCurrentSeasonId(db, seasonTable);
 
@@ -87,13 +95,15 @@ export class RoomRepository implements IRoomRepository {
 
       return success("Rooms retrieve successfully", data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while fetching all rooms`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async getByIdAsync(
     roomId: number
   ): Promise<OperationResult<RoomDetails>> {
+    this.logger.Info(`Fetching room with ID: ${roomId}`);
     try {
       const currentSeasonId = await getCurrentSeasonId(db, seasonTable);
 
@@ -141,7 +151,8 @@ export class RoomRepository implements IRoomRepository {
 
       return success(`Room with ID ${roomId} retrieve successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(`Error while fetching room with ID: ${roomId}`, error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }

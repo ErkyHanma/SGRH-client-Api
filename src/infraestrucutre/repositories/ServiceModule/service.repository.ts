@@ -4,6 +4,7 @@ import {
   success,
 } from "@domain/entities/Base/OperationResult";
 import { Service } from "@domain/entities/ServiceModule/Service";
+import { ILogger } from "@domain/interfaces/ILogger";
 import { IServiceRepository } from "@domain/interfaces/ServiceModuleTypes";
 import { db } from "@infraestrucutre/database";
 import { servicesTable } from "@infraestrucutre/database/schema/servicesModule.schema";
@@ -11,7 +12,14 @@ import { ServiceMapper } from "@infraestrucutre/mappers/serviceModule.mapper";
 import { and, eq } from "drizzle-orm";
 
 export class ServiceRepository implements IServiceRepository {
+  private readonly logger: ILogger;
+
+  constructor(logger: ILogger) {
+    this.logger = logger;
+  }
+
   public async getAllAsync(): Promise<OperationResult<Service[]>> {
+    this.logger.Info("Fetching all services");
     try {
       const services = await db
         .select()
@@ -29,13 +37,16 @@ export class ServiceRepository implements IServiceRepository {
 
       return success("Services retrieved successfully", data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error("Error while fetching all users", error);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
   public async getByIdAsync(
     serviceId: number
   ): Promise<OperationResult<Service>> {
+    this.logger.Info(`Fetching service by ID: ${serviceId}`);
+
     try {
       const services = await db
         .select()
@@ -56,7 +67,11 @@ export class ServiceRepository implements IServiceRepository {
 
       return success(`Service ${serviceId} retrieved successfully`, data);
     } catch (error) {
-      return failure(`Something went wrong: ${error}`);
+      this.logger.Error(
+        `Error while fetching services with ID ${serviceId}`,
+        error
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }

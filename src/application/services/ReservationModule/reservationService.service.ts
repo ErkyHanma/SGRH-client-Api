@@ -4,22 +4,23 @@ import {
   OperationResult,
   success,
 } from "@domain/entities/Base/OperationResult";
-import { Reservation } from "@domain/entities/ReservationModule/Reservation";
 import { ReservationService } from "@domain/entities/ReservationModule/ReservationService";
+import { ILogger } from "@domain/interfaces/ILogger";
 import {
-  IReservationRepository,
-  IReservationService,
   IReservationServiceRepository,
   IReservationServiceService,
 } from "@domain/interfaces/ReservationModuleTypes";
-import { ReservationMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
-import { ReservationWithName } from "@infraestrucutre/repositories/ReservationModule/reservation.repository";
 
 export class ReservationServiceService implements IReservationServiceService {
   private readonly reservationServiceRepository: IReservationServiceRepository;
+  private readonly logger: ILogger;
 
-  constructor(reservationServiceRepository: IReservationServiceRepository) {
+  constructor(
+    reservationServiceRepository: IReservationServiceRepository,
+    logger: ILogger
+  ) {
     this.reservationServiceRepository = reservationServiceRepository;
+    this.logger = logger;
   }
 
   public async AddReservationServiceAsync(
@@ -31,12 +32,16 @@ export class ReservationServiceService implements IReservationServiceService {
       );
 
       if (!reservation.isSuccess) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
       return success(reservation.message);
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(
+        `Error while adding service to reservation with ID: ${reservationService.reservationId}`
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 
@@ -49,12 +54,16 @@ export class ReservationServiceService implements IReservationServiceService {
       );
 
       if (!reservation.isSuccess) {
+        this.logger.Error(reservation.message);
         return failure(reservation.message);
       }
 
       return success(reservation.message);
     } catch (error) {
-      return failure(`Something went wrong ${error}`);
+      this.logger.Error(
+        `Error while adding service to reservation with ID: ${reservationService.reservationId}`
+      );
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
 }
