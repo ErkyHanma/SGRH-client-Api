@@ -1,4 +1,5 @@
-import { failure } from "@domain/entities/Base/OperationResult";
+import { Reservation } from "@domain/entities/ReservationModule/Reservation";
+import { IReservationRepository } from "@domain/interfaces/ReservationModuleTypes";
 import { and, gte, lte } from "drizzle-orm";
 
 export const DateNowToString = function () {
@@ -12,6 +13,28 @@ export const DateToString = function (date: Date | string): string {
 
 export const DateNow = (): Date => new Date();
 
+// Check that reservation Dates are in the future
+export function ReservationMustBeFuture(
+  start_date: Date | string,
+  end_date: Date | string
+): boolean {
+  const currentDate = DateNow();
+  return new Date(start_date) > currentDate && new Date(end_date) > currentDate;
+}
+
+// Get the season ID based on the current date
+export async function ValidateRoomAvailability(
+  reservationRepository: IReservationRepository,
+  entity: Reservation
+): Promise<boolean> {
+  const isAvailable = await reservationRepository.checkRoomAvailabilityAsync(
+    entity.roomId,
+    entity.startDate,
+    entity.endDate
+  );
+
+  return isAvailable.isSuccess;
+}
 
 // Get the season ID based on the current date
 export async function getCurrentSeasonId(

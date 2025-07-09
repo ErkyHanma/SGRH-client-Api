@@ -11,6 +11,10 @@ import {
   IReservationService,
 } from "@domain/interfaces/ReservationModuleTypes";
 import { ReservationMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
+import {
+  ReservationMustBeFuture,
+  ValidateRoomAvailability,
+} from "@shared/utils";
 
 export class ReservationService implements IReservationService {
   private readonly reservationRepository: IReservationRepository;
@@ -70,7 +74,6 @@ export class ReservationService implements IReservationService {
       return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
-
   public async getAllReservationByID(
     id: number
   ): Promise<OperationResult<ReservationDto[]>> {
@@ -103,6 +106,14 @@ export class ReservationService implements IReservationService {
     entity: Reservation
   ): Promise<OperationResult<ReservationDto>> {
     try {
+      if (!ReservationMustBeFuture(entity.startDate, entity.endDate)) {
+        return failure("The reservation cannot be in the past");
+      }
+
+      if (!ValidateRoomAvailability(this.reservationRepository, entity)) {
+        return failure("The room is not available for the selected days");
+      }
+
       const reservation = await this.reservationRepository.addAsync(entity);
 
       if (!reservation.isSuccess || !reservation.data) {
@@ -127,6 +138,14 @@ export class ReservationService implements IReservationService {
     entity: Reservation
   ): Promise<OperationResult<ReservationDto | null>> {
     try {
+      if (!ReservationMustBeFuture(entity.startDate, entity.endDate)) {
+        return failure("The reservation cannot be in the past");
+      }
+
+      if (!ValidateRoomAvailability(this.reservationRepository, entity)) {
+        return failure("The room is not available for the selected days");
+      }
+
       const reservation = await this.reservationRepository.updateAsync(
         id,
         entity
