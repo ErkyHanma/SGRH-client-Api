@@ -7,11 +7,11 @@ export class Service extends AuditEntity {
     public description: string,
     public price: number,
     createdAt: Date,
-    createdBy: number,
-    updatedAt: Date,
-    updatedBy: number,
-    deletedAt: Date,
-    deletedBy: number,
+    createdBy: number | null,
+    updatedAt: Date | null,
+    updatedBy: number | null,
+    deletedAt: Date | null,
+    deletedBy: number | null,
     isActive: boolean = true,
     isDeleted: boolean = false
   ) {

@@ -19,7 +19,7 @@
     },
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src/**/*.ts", "tests/**/*.test.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.test.ts", "tests/**/*.builder.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
