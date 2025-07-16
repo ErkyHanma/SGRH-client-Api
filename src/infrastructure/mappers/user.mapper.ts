@@ -1,6 +1,6 @@
 import { UserDto } from "@application/Dtos/UserManagement/UserDto";
 import { User } from "@domain/entities/UserManagement/User";
-import { UserModel } from "@infraestrucutre/database/schema/userManagement.schema";
+import { UserModel } from "@infrastructure/database/schema/userManagement.schema";
 
 export class UserMapper {
   static toUserEntity(raw: any): User {

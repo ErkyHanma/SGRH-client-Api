@@ -1,6 +1,6 @@
 import { ReservationServiceService } from "@application/services/ReservationModule/reservationService.service";
-import { Logger } from "@infraestrucutre/logger/logger";
-import { ReservationServiceRepository } from "@infraestrucutre/repositories/ReservationModule/reservationService.repository";
+import { Logger } from "@infrastructure/logger/logger";
+import { ReservationServiceRepository } from "@infrastructure/repositories/ReservationModule/reservationService.repository";
 
 class ReservationServiceContainer {
   private static logger = new Logger();

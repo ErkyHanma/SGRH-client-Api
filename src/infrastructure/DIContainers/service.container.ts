@@ -1,6 +1,6 @@
 import { ServiceService } from "@application/services/ServiceModule/service.service";
-import { Logger } from "@infraestrucutre/logger/logger";
-import { ServiceRepository } from "@infraestrucutre/repositories/ServiceModule/service.repository";
+import { Logger } from "@infrastructure/logger/logger";
+import { ServiceRepository } from "@infrastructure/repositories/ServiceModule/service.repository";
 
 class ServiceContainer {
   private static logger = new Logger();

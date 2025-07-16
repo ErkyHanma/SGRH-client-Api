@@ -1,6 +1,6 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
 import { User } from "@domain/entities/UserManagement/User";
-import { UserContainer } from "@infraestrucutre/DIContainers/user.container";
+import { UserContainer } from "@infrastructure/DIContainers/user.container";
 
 export class UserController {
   private readonly userService = UserContainer.getUserService();

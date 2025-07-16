@@ -10,7 +10,7 @@ import {
   IReservationRepository,
   IReservationService,
 } from "@domain/interfaces/ReservationModuleTypes";
-import { ReservationMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
+import { ReservationMapper } from "@infrastructure/mappers/reservationModule.mapper";
 import {
   ReservationMustBeFuture,
   ValidateRoomAvailability,

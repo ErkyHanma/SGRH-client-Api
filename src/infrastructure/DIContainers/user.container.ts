@@ -1,6 +1,6 @@
 import { UserService } from "@application/services/UserManagement/user.service";
-import { Logger } from "@infraestrucutre/logger/logger";
-import { UserRepository } from "@infraestrucutre/repositories/UserManagement/user.repository";
+import { Logger } from "@infrastructure/logger/logger";
+import { UserRepository } from "@infrastructure/repositories/UserManagement/user.repository";
 
 class UserContainer {
   private static logger = new Logger();

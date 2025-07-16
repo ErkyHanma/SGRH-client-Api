@@ -6,15 +6,15 @@ import {
 import { Room } from "@domain/entities/Hotel/Room";
 import { IRoomRepository } from "@domain/interfaces/HotelTypes";
 import { ILogger } from "@domain/interfaces/ILogger";
-import { db } from "@infraestrucutre/database";
+import { db } from "@infrastructure/database";
 import {
   floorsTable,
   rateTable,
   room_categoryTable,
   roomsTable,
   seasonTable,
-} from "@infraestrucutre/database/schema/hotel.schema";
-import { RoomMapper } from "@infraestrucutre/mappers/hotel.mapper";
+} from "@infrastructure/database/schema/hotel.schema";
+import { RoomMapper } from "@infrastructure/mappers/hotel.mapper";
 import { getCurrentSeasonId } from "@shared/utils";
 import { and, eq, gte, lte } from "drizzle-orm";
 

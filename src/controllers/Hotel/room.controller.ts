@@ -1,5 +1,5 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { RoomContainer } from "@infraestrucutre/DIContainers/room.container";
+import { RoomContainer } from "@infrastructure/DIContainers/room.container";
 
 export class RoomController {
   private readonly roomService = RoomContainer.getRoomService();

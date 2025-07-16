@@ -1,5 +1,5 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { ReservationContainer } from "@infraestrucutre/DIContainers/reservation.container";
+import { ReservationContainer } from "@infrastructure/DIContainers/reservation.container";
 
 export class ReservationController {
   private readonly reservationService = ReservationContainer.getReservationService();

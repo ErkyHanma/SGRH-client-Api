@@ -1,6 +1,6 @@
 import { RoomService } from "@application/services/Hotel/room.service";
-import { Logger } from "@infraestrucutre/logger/logger";
-import { RoomRepository } from "@infraestrucutre/repositories/Hotel/room.repository";
+import { Logger } from "@infrastructure/logger/logger";
+import { RoomRepository } from "@infrastructure/repositories/Hotel/room.repository";
 
 class RoomContainer {
   private static logger = new Logger();

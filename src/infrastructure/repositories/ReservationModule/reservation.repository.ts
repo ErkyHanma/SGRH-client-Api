@@ -6,10 +6,10 @@ import {
 import { Reservation } from "@domain/entities/ReservationModule/Reservation";
 import { ILogger } from "@domain/interfaces/ILogger";
 import { IReservationRepository } from "@domain/interfaces/ReservationModuleTypes";
-import { db } from "@infraestrucutre/database";
-import { reservationsTable } from "@infraestrucutre/database/schema/reservationModule.schema";
-import { usersTable } from "@infraestrucutre/database/schema/userManagement.schema";
-import { ReservationMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
+import { db } from "@infrastructure/database";
+import { reservationsTable } from "@infrastructure/database/schema/reservationModule.schema";
+import { usersTable } from "@infrastructure/database/schema/userManagement.schema";
+import { ReservationMapper } from "@infrastructure/mappers/reservationModule.mapper";
 import { DateNowToString, DateToString } from "@shared/utils";
 import { and, eq, gte, lte } from "drizzle-orm";
 

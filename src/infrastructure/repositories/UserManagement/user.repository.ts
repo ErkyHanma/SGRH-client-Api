@@ -7,9 +7,9 @@ import {
 import { User } from "@domain/entities/UserManagement/User";
 import { ILogger } from "@domain/interfaces/ILogger";
 import { IUserRepository } from "@domain/interfaces/UserTypes";
-import { db } from "@infraestrucutre/database";
-import { usersTable } from "@infraestrucutre/database/schema/userManagement.schema";
-import { UserMapper } from "@infraestrucutre/mappers/user.mapper";
+import { db } from "@infrastructure/database";
+import { usersTable } from "@infrastructure/database/schema/userManagement.schema";
+import { UserMapper } from "@infrastructure/mappers/user.mapper";
 import { DateNowToString } from "@shared/utils";
 import { and, eq } from "drizzle-orm";
 
@@ -182,7 +182,7 @@ export class UserRepository implements IUserRepository {
         .returning();
 
       if (!deleted) {
-        return failure(`User with id ${id} not found`);
+        return failure(`User with id ${id} could not be delete`);
       }
 
       const data = UserMapper.toUserEntity(deleted);

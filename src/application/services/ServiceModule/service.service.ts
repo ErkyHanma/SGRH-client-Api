@@ -10,7 +10,7 @@ import {
   IServiceRepository,
   IServiceService,
 } from "@domain/interfaces/ServiceModuleTypes";
-import { ServiceMapper } from "@infraestrucutre/mappers/serviceModule.mapper";
+import { ServiceMapper } from "@infrastructure/mappers/serviceModule.mapper";
 
 export class ServiceService implements IServiceService {
   private readonly serviceRepository: IServiceRepository;

@@ -2,19 +2,24 @@
   "compilerOptions": {
     "target": "ES2021",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
+    "baseUrl": "./src",
+    "types": ["jest"],
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "CommonJS",
-    "baseUrl": "./src",
     "strictPropertyInitialization": false,
     "paths": {
-      "@*": ["*"]
+      "@infrastructure/*": ["infrastructure/*"],
+      "@domain/*": ["domain/*"],
+      "@controllers/*": ["controllers/*"],
+      "@shared/*": ["shared/*"],
+      "@application/*": ["application/*"]
     },
-    "typeRoots": ["@types", "./node_modules/@types"]
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts", "tests/**/*.test.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]

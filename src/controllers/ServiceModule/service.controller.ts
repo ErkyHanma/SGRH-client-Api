@@ -1,5 +1,5 @@
 import { failure, success } from "@domain/entities/Base/OperationResult";
-import { ServiceContainer } from "@infraestrucutre/DIContainers/service.container";
+import { ServiceContainer } from "@infrastructure/DIContainers/service.container";
 
 export class ServiceController {
   private readonly serviceService = ServiceContainer.getServiceService();

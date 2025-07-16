@@ -7,7 +7,7 @@ import {
 } from "@domain/entities/Base/OperationResult";
 import { User } from "@domain/entities/UserManagement/User";
 import { IUserRepository, IUserService } from "@domain/interfaces/UserTypes";
-import { UserMapper } from "@infraestrucutre/mappers/user.mapper";
+import { UserMapper } from "@infrastructure/mappers/user.mapper";
 
 export class UserService implements IUserService {
   private readonly userRepository: IUserRepository;

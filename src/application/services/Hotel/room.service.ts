@@ -7,7 +7,7 @@ import {
 import { Room } from "@domain/entities/Hotel/Room";
 import { IRoomRepository, IRoomService } from "@domain/interfaces/HotelTypes";
 import { ILogger } from "@domain/interfaces/ILogger";
-import { RoomMapper } from "@infraestrucutre/mappers/hotel.mapper";
+import { RoomMapper } from "@infrastructure/mappers/hotel.mapper";
 
 export class RoomService implements IRoomService {
   private readonly roomRepository: IRoomRepository;

@@ -1,6 +1,6 @@
 import { RoomDto } from "@application/Dtos/Hotel/RoomDto";
 import { Room } from "@domain/entities/Hotel/Room";
-import { RoomDetails } from "@infraestrucutre/repositories/Hotel/room.repository";
+import { RoomDetails } from "@infrastructure/repositories/Hotel/room.repository";
 
 //Room:
 export class RoomMapper {

@@ -6,9 +6,9 @@ import {
 import { Service } from "@domain/entities/ServiceModule/Service";
 import { ILogger } from "@domain/interfaces/ILogger";
 import { IServiceRepository } from "@domain/interfaces/ServiceModuleTypes";
-import { db } from "@infraestrucutre/database";
-import { servicesTable } from "@infraestrucutre/database/schema/servicesModule.schema";
-import { ServiceMapper } from "@infraestrucutre/mappers/serviceModule.mapper";
+import { db } from "@infrastructure/database";
+import { servicesTable } from "@infrastructure/database/schema/servicesModule.schema";
+import { ServiceMapper } from "@infrastructure/mappers/serviceModule.mapper";
 import { and, eq } from "drizzle-orm";
 
 export class ServiceRepository implements IServiceRepository {

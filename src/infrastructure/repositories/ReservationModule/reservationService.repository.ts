@@ -6,10 +6,10 @@ import {
 import { ReservationService } from "@domain/entities/ReservationModule/ReservationService";
 import { ILogger } from "@domain/interfaces/ILogger";
 import { IReservationServiceRepository } from "@domain/interfaces/ReservationModuleTypes";
-import { db } from "@infraestrucutre/database";
-import { reservationServiceTable } from "@infraestrucutre/database/schema/reservationModule.schema";
-import { servicesTable } from "@infraestrucutre/database/schema/servicesModule.schema";
-import { ReservationServiceMapper } from "@infraestrucutre/mappers/reservationModule.mapper";
+import { db } from "@infrastructure/database";
+import { reservationServiceTable } from "@infrastructure/database/schema/reservationModule.schema";
+import { servicesTable } from "@infrastructure/database/schema/servicesModule.schema";
+import { ReservationServiceMapper } from "@infrastructure/mappers/reservationModule.mapper";
 import { and, eq } from "drizzle-orm";
 
 export class ReservationServiceRepository
