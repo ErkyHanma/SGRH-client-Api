@@ -22,7 +22,6 @@ export function ReservationMustBeFuture(
   return new Date(start_date) > currentDate && new Date(end_date) > currentDate;
 }
 
-// Get the season ID based on the current date
 export async function ValidateRoomAvailability(
   reservationRepository: IReservationRepository,
   entity: Reservation

@@ -452,7 +452,7 @@ describe("ReservationRepository Tests", () => {
   });
 
   describe("checkRoomAvailabilityAsync", () => {
-    it("should return boolean when success", async () => {
+    it("should return true when success", async () => {
       // Arrange
       const mockRoomId = 1;
       const mockStartDate = new Date("2025-07-01");

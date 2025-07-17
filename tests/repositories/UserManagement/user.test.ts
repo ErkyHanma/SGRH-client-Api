@@ -31,6 +31,7 @@ describe("UserRepository Tests", () => {
   });
 
   describe("getAllAsync", () => {
+    
     it("should return all users successfully", async () => {
       // Arrange
       const mockUsers: User[] = [_userBuilder.build(), _userBuilder.build()];

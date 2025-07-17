@@ -6,8 +6,8 @@ export class ReservationBuilder {
     1, // reservationId
     1, // clientId
     2, // roomId
-    new Date("2025-07-01"), // startDate
-    new Date("2025-07-04"), // endDate
+    new Date("2026-12-01"), // startDate
+    new Date("2026-12-04"), // endDate
     new Date("2025-06-25"), // reservationDate
     "Pending", // status
     2, // guestCount
@@ -29,6 +29,16 @@ export class ReservationBuilder {
 
   public withClientId(clientId: number): ReservationBuilder {
     this._entity.clientId = clientId;
+    return this;
+  }
+
+  public withStartDate(startDate: Date): ReservationBuilder {
+    this._entity.startDate = startDate;
+    return this;
+  }
+
+  public withEndDate(endDate: Date): ReservationBuilder {
+    this._entity.endDate = endDate;
     return this;
   }
 

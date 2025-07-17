@@ -114,7 +114,7 @@ export class UserService implements IUserService {
         return failure(users.message);
       }
 
-      return success(users.message);
+      return success(users.message, true);
     } catch (error) {
       this.logger.Error(`Error while deleting user`, error);
       return failure(`Something went wrong: ${(error as Error).message}`);

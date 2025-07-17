@@ -48,9 +48,9 @@ export interface IReservationServiceRepository {
 export interface IReservationServiceService {
   AddReservationServiceAsync(
     reservationService: ReservationService
-  ): Promise<OperationResult<ReservationService>>;
+  ): Promise<OperationResult<boolean>>;
 
   DeleteReservationServiceAsync(
     reservationService: ReservationService
-  ): Promise<OperationResult<ReservationService>>;
+  ): Promise<OperationResult<boolean>>;
 }

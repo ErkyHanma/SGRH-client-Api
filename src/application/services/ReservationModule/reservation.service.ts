@@ -45,7 +45,7 @@ export class ReservationService implements IReservationService {
       );
     } catch (error) {
       this.logger.Error("Error while fetching all reservations", error);
-      return failure(`Something went wrong ${error}`);
+      return failure(`Something went wrong: ${(error as Error).message}`);
     }
   }
   public async getReservationByID(
@@ -110,7 +110,9 @@ export class ReservationService implements IReservationService {
         return failure("The reservation cannot be in the past");
       }
 
-      if (!ValidateRoomAvailability(this.reservationRepository, entity)) {
+      if (
+        !(await ValidateRoomAvailability(this.reservationRepository, entity))
+      ) {
         return failure("The room is not available for the selected days");
       }
 
@@ -142,7 +144,7 @@ export class ReservationService implements IReservationService {
         return failure("The reservation cannot be in the past");
       }
 
-      if (!ValidateRoomAvailability(this.reservationRepository, entity)) {
+      if (! (await ValidateRoomAvailability(this.reservationRepository, entity))) {
         return failure("The room is not available for the selected days");
       }
 
@@ -209,7 +211,7 @@ export class ReservationService implements IReservationService {
         return failure(reservation.message);
       }
 
-      return success(reservation.message);
+      return success(reservation.message, true);
     } catch (error) {
       this.logger.Error(`Error while Checking Room Availability `, error);
       return failure(`Something went wrong: ${(error as Error).message}`);

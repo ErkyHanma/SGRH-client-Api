@@ -25,7 +25,7 @@ export class ReservationServiceService implements IReservationServiceService {
 
   public async AddReservationServiceAsync(
     reservationService: ReservationService
-  ): Promise<OperationResult<ReservationService>> {
+  ): Promise<OperationResult<boolean>> {
     try {
       const reservation = await this.reservationServiceRepository.AddAsync(
         reservationService
@@ -36,7 +36,7 @@ export class ReservationServiceService implements IReservationServiceService {
         return failure(reservation.message);
       }
 
-      return success(reservation.message);
+      return success(reservation.message, true);
     } catch (error) {
       this.logger.Error(
         `Error while adding service to reservation with ID: ${reservationService.reservationId}`
@@ -47,7 +47,7 @@ export class ReservationServiceService implements IReservationServiceService {
 
   public async DeleteReservationServiceAsync(
     reservationService: ReservationService
-  ): Promise<OperationResult<ReservationService>> {
+  ): Promise<OperationResult<boolean>> {
     try {
       const reservation = await this.reservationServiceRepository.DeleteAsync(
         reservationService
@@ -58,7 +58,7 @@ export class ReservationServiceService implements IReservationServiceService {
         return failure(reservation.message);
       }
 
-      return success(reservation.message);
+      return success(reservation.message, true);
     } catch (error) {
       this.logger.Error(
         `Error while adding service to reservation with ID: ${reservationService.reservationId}`
