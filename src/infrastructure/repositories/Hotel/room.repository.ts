@@ -135,7 +135,7 @@ export class RoomRepository implements IRoomRepository {
         );
 
       if (!room) {
-        return failure(`Room with the ID ${roomId} cannot be retrieve`);
+        return failure(`Room with the ID ${roomId} not found`);
       }
 
       const data = {
