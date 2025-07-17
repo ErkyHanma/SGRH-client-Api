@@ -42,7 +42,6 @@ export interface IReservationService {
 // Reservation Service
 export interface IReservationServiceRepository {
   AddAsync(entity: ReservationService): Promise<OperationResult<boolean>>;
-
   DeleteAsync(entity: ReservationService): Promise<OperationResult<boolean>>;
 }
 

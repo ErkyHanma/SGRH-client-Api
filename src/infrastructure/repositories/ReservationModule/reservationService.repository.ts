@@ -99,7 +99,7 @@ export class ReservationServiceRepository
           )
         );
 
-      return success("Service removed from reservation successfully");
+      return success("Service removed from reservation successfully", true);
     } catch (error) {
       this.logger.Error(
         `Error while adding service to reservation with ID: ${entity.reservationId}`

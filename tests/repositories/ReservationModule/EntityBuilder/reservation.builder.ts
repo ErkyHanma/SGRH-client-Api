@@ -27,12 +27,11 @@ export class ReservationBuilder {
     return this;
   }
 
-    public withClientId(clientId: number): ReservationBuilder {
+  public withClientId(clientId: number): ReservationBuilder {
     this._entity.clientId = clientId;
     return this;
   }
 
-  // Reservation with name (not the Reservation Entity)
   public build(): Reservation {
     return this._entity;
   }
