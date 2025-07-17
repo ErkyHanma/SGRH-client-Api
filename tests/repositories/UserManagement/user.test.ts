@@ -1,5 +1,4 @@
 import { User } from "@domain/entities/UserManagement/User";
-import { ILogger } from "@domain/interfaces/ILogger";
 import { IUserRepository } from "@domain/interfaces/UserTypes";
 import { jest } from "@jest/globals";
 import {
@@ -8,7 +7,6 @@ import {
   success,
 } from "@domain/entities/Base/OperationResult";
 import { UserBuilder } from "./EntityBuilder/user.builder";
-import { UserRepository } from "@infrastructure/repositories/UserManagement/user.repository";
 
 // Mock the database and mapper dependencies
 jest.mock("@infrastructure/database");

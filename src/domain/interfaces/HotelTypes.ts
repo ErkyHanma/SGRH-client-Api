@@ -1,6 +1,6 @@
 import { RoomDto } from "@application/Dtos/Hotel/RoomDto";
 import { OperationResult } from "@domain/entities/Base/OperationResult";
-import { RoomDetails } from "@infraestrucutre/repositories/Hotel/room.repository";
+import { RoomDetails } from "@infrastructure/repositories/Hotel/room.repository";
 
 // Repositories
 export interface IRoomRepository {

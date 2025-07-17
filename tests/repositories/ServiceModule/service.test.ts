@@ -10,7 +10,7 @@ import { ServiceBuilder } from "./EntityBuilder/service.builder";
 
 // Mock the database and mapper dependencies
 jest.mock("@infrastructure/database");
-jest.mock("@infrastructure/mappers/user.mapper");
+jest.mock("@infrastructure/mappers/serviceModule.mapper");
 
 const _serviceBuilder = new ServiceBuilder();
 

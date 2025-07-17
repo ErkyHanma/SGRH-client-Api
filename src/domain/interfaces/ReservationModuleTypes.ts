@@ -2,7 +2,7 @@ import { ReservationDto } from "@application/Dtos/ReservationModule/ReservationD
 import { OperationResult } from "@domain/entities/Base/OperationResult";
 import { Reservation } from "@domain/entities/ReservationModule/Reservation";
 import { ReservationService } from "@domain/entities/ReservationModule/ReservationService";
-import { ReservationWithName } from "@infraestrucutre/repositories/ReservationModule/reservation.repository";
+import { ReservationWithName } from "@infrastructure/repositories/ReservationModule/reservation.repository";
 
 // Reservation
 export interface IReservationRepository {

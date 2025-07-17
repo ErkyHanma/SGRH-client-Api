@@ -225,6 +225,21 @@ export class ReservationRepository implements IReservationRepository {
   ): Promise<OperationResult<ReservationWithName>> {
     this.logger.Info(`Updating reservation with ID: ${id}`);
     try {
+      const [exist] = await db
+        .select()
+        .from(reservationsTable)
+        .where(
+          and(
+            eq(reservationsTable.reservation_id, id),
+            eq(reservationsTable.is_active, true),
+            eq(reservationsTable.is_deleted, false)
+          )
+        );
+
+      if (!exist) {
+        return failure(`Reservation with id ${id} not found`);
+      }
+
       const [updated] = await db
         .update(reservationsTable)
         .set(ReservationMapper.toReservationModel(entity))
@@ -232,7 +247,7 @@ export class ReservationRepository implements IReservationRepository {
         .returning();
 
       if (!updated) {
-        return failure("Failed to insert reservation");
+        return failure("Failed to update reservation");
       }
 
       const [reservation] = await db
@@ -276,6 +291,21 @@ export class ReservationRepository implements IReservationRepository {
   ): Promise<OperationResult<ReservationWithName>> {
     this.logger.Info(`Deleting reservation with ID: ${id}`);
     try {
+      const [exist] = await db
+        .select()
+        .from(reservationsTable)
+        .where(
+          and(
+            eq(reservationsTable.reservation_id, id),
+            eq(reservationsTable.is_active, true),
+            eq(reservationsTable.is_deleted, false)
+          )
+        );
+
+      if (!exist) {
+        return failure(`Reservation with id ${id} not found`);
+      }
+
       await db
         .update(reservationsTable)
         .set({
@@ -321,7 +351,7 @@ export class ReservationRepository implements IReservationRepository {
         return failure("The room is already reserved for the selected dates.");
       }
 
-      return success("The room is available for reservation.");
+      return success("The room is available for reservation.", true);
     } catch (error) {
       this.logger.Error(`Error while Checking Room Availability `, error);
       return failure(`Something went wrong: ${(error as Error).message}`);

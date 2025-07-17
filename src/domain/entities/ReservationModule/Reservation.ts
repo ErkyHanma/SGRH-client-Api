@@ -12,11 +12,11 @@ export class Reservation extends AuditEntity {
     public guestCount: number = 1,
     public paymentAmount: number,
     createdAt: Date,
-    createdBy: number,
-    updatedAt: Date,
-    updatedBy: number,
-    deletedAt: Date,
-    deletedBy: number,
+    createdBy: number | null,
+    updatedAt: Date | null,
+    updatedBy: number | null,
+    deletedAt: Date | null,
+    deletedBy: number | null,
     isActive: boolean = true,
     isDeleted: boolean = false
   ) {
